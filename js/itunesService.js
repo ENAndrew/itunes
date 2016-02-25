@@ -24,7 +24,7 @@
           
           $http.jsonp(fullUrl)
                   .then(function(response){
-                      deferred.resolve(response);
+                      deferred.resolve(response.data.results);
           });
           
           return deferred.promise;
