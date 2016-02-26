@@ -22,7 +22,7 @@
           ]
       };
       
-      $scope.songData = [];
+      $scope.songData = null;
 
       //Our controller is what's going to connect our 'heavy lifting' itunesService with our view (index.html) so our user can see the results they get back from itunes.
 
@@ -35,9 +35,10 @@
 
       $scope.getSongData = function(artistName) {
           console.log('getSongData ran');
-          itunesService.goFindArtist(artistName).then(function(result){
-                $scope.songData = result;
-                console.log($scope.songData); //this is logging correctly
+          itunesService.goFindArtist(artistName)
+                  .then(function(result){
+                    $scope.songData = result;
+                    console.log($scope.songData); //this is logging correctly
           });
           
           var tempObj = {};
