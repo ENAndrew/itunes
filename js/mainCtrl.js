@@ -21,6 +21,8 @@
             {field: 'CollectionPrice', displayName: 'Collection Price'}
           ]
       };
+      
+      $scope.songData = [];
 
       //Our controller is what's going to connect our 'heavy lifting' itunesService with our view (index.html) so our user can see the results they get back from itunes.
 
@@ -31,9 +33,9 @@
       //*remember, that method should be expecting an artist name. The artist name is coming from the input box on index.html, head over there and check if that input box is tied to any specific model we could use.
       //Also note that that method should be retuning a promise, so you could use .then in this function.
 
-      $scope.getSongData = function(artist) {
+      $scope.getSongData = function(artistName) {
           console.log('getSongData ran');
-          itunesService.goFindArtist(artist).then(function(result){
+          itunesService.goFindArtist(artistName).then(function(result){
                 $scope.songData = result;
                 console.log($scope.songData); //this is logging correctly
           });
