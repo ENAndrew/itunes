@@ -18,11 +18,12 @@
             {field: 'Collection', displayName: 'Collection'},
             {field: 'AlbumArt', displayName: 'Album Art', width: '110px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><img src="{{row.getProperty(col.field)}}"></div>'},
             {field: 'Type', displayName: 'Type'},
-            {field: 'CollectionPrice', displayName: 'Collection Price'}
+            {field: 'CollectionPrice', displayName: 'Collection Price'},
+            {field: 'ReleaseDate', displayName: 'Release Date', cellFilter: 'date:"yyyy-MM-dd"'}
           ]
       };
       
-      $scope.songData = null;
+      
 
       //Our controller is what's going to connect our 'heavy lifting' itunesService with our view (index.html) so our user can see the results they get back from itunes.
 
@@ -38,28 +39,33 @@
           itunesService.goFindArtist(artistName)
                   .then(function(result){
                     $scope.songData = result;
-                    console.log($scope.songData); //this is logging correctly
-          });
-          
-          var tempObj = {};
-          
-          console.log($scope.songData + ' is the data');  //this is not being returned to a useful place.  
-          
-          for(var key in $scope.songData) {
-//              if(key === 'AlbumArt' || key === 'Artist' || key === 'Collection' || key === 'CollectionPrice' || key === 'Play' || key === 'Type') {
-//                  tempObj.push(key);
-//                  console.log(tempObj);
-//              }
-              
-          }
-      };
+            
+                    var tempArray = [];
+                    
+                    $scope.songData.forEach(function(item){
+                        var tempObj = {};
+                        
+                        tempObj.AlbumArt = item.artworkUrl30;
+                        tempObj.Artist = item.artistName;
+                        tempObj.Collection = item.collectionCensoredName;
+                        tempObj.CollectionPrice = item.collectionPrice;
+                        tempObj.Play = item.previewUrl;
+                        tempObj.Type = item.kind;
+                        tempObj.ReleaseDate = item.releaseDate;
+
+                        tempArray.push(tempObj);
+                       
+                    });
+            
+                    $scope.songData = tempArray;
+
+          });          
+    };
+ 
      
 
 
       //Check that the above method is working by entering a name into the input field on your web app, and then console.log the result
-
-        //Code here
-
 
       //If everything worked you should see a huge array of objects inside your console. That's great! But unfortunately that's not what ng-grid is expecting. What you need to do now
       //is sort the data you got back to be an object in the following format.
